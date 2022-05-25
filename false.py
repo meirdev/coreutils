@@ -2,5 +2,5 @@ import sys
 from typing import NoReturn
 
 
-def false() -> NoReturn:
+def main() -> NoReturn:
     sys.exit(1)
