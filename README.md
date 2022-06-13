@@ -4,3 +4,4 @@ Rewrite some coreutils programs in Python.
 - false
 - true
 - yes
+- sleep
