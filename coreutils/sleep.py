@@ -1,10 +1,9 @@
 import time
-from typing import NoReturn
 
 import click
 
 
-def convert_seconds(seconds: str) -> float | NoReturn:
+def convert_seconds(seconds: str) -> float:
     suffix_multiplier = {
         "s": 1,
         "m": 60,
@@ -32,12 +31,16 @@ def validate_seconds(_ctx, _param, value: tuple[str, ...]) -> tuple[float, ...]:
         for seconds in value:
             seconds_list.append(convert_seconds(seconds))
     except (ValueError, IndexError):
-        raise click.BadParameter(f"invalid time interval {seconds}") from None
+        raise click.BadParameter(f'invalid time interval "{seconds}"') from None
 
     return tuple(seconds_list)
 
 
-@click.command()
+@click.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+    ),
+)
 @click.argument("seconds", nargs=-1, required=True, callback=validate_seconds)
 def main(seconds: tuple[float, ...]):
     time.sleep(sum(seconds))

@@ -9,19 +9,28 @@ from coreutils import sleep
 def test_main_negative_interval():
     runner = CliRunner()
     
-    assert runner.invoke(sleep.main, ["-1"]).exit_code != 0
+    result = runner.invoke(sleep.main, ["-1"])
+
+    assert result.exit_code != 0
+    assert 'invalid time interval "-1"' in result.output
 
 
 def test_main_not_a_number_interval():
     runner = CliRunner()
 
-    assert runner.invoke(sleep.main, ["one"]).exit_code != 0
+    result = runner.invoke(sleep.main, ["one"])
+
+    assert result.exit_code != 0
+    assert 'invalid time interval "one"' in result.output
 
 
 def test_main_not_exists_interval_suffix():
     runner = CliRunner()
 
-    assert runner.invoke(sleep.main, ["1y"]).exit_code != 0
+    result = runner.invoke(sleep.main, ["1y"])
+
+    assert result.exit_code != 0
+    assert 'invalid time interval "1y"' in result.output
 
 
 @patch("time.sleep")
